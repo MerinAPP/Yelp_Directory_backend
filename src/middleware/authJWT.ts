@@ -24,7 +24,7 @@ export const AuthJWT =
     try {
       const authHeader = req.headers.authorization || req.headers.Authorization as string;
       if (!authHeader?.startsWith("Bearer ")) {
-        throw new UnAuthenticatedError("Unauthorized");
+        throw new UnAuthenticatedError("Unauthorized error3");
       }
       const token = authHeader.split(" ")[1];
       jwt.verify(token, process.env.JWT_ACCESS_SECRET, (err, decoded) => {
@@ -36,7 +36,7 @@ export const AuthJWT =
 
     } catch (err) {
       return res.status(403).json({
-        message: "unauthorized",
+        message: "unauthorized error",
         err
       });
     }
