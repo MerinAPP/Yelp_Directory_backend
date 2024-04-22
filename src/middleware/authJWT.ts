@@ -4,6 +4,7 @@ import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import UnAuthenticatedError from "../errors/unauthenticatedError";
 import ForbiddenError from "../errors/forbidden.errors";
+import BadRequestError from "../errors/badRequest.errors";
 
 
 
@@ -22,6 +23,8 @@ export const AuthJWT =
     next: NextFunction
   ) => {
     try {
+
+      if (!process.env.JWT_ACCESS_SECRET) throw new BadRequestError("NO key")
       const authHeader = req.headers.authorization || req.headers.Authorization as string;
       if (!authHeader?.startsWith("Bearer ")) {
         throw new UnAuthenticatedError("Unauthorized error3");
