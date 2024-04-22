@@ -1,0 +1,21 @@
+export interface IRequestBodyOfSantim {
+    txnId: string,
+    created_at: Date | string,
+    updated_at: Date | string,
+    thirdPartyId?: number,
+    merId: string,
+    merName: string,
+    address?: string,
+    amount: string,
+    currency: string,
+    reason: string,
+    msisdn?: string,
+    accountNumber?: string,
+    paymentVia?: string,
+    refId?: string,
+    successRedirectUrl: string,
+    failureRedirectUrl: string,
+    message?: string,
+    status: string,
+    receiverWalletID?: string
+}
