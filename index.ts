@@ -1,7 +1,8 @@
 import mongoose from 'mongoose';
 import app from './src/app';
+import { local_config } from './src/config/config';
 
-const port = process.env.PORT || 5000;
+const port = local_config.PORT || 5000;
 
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB");

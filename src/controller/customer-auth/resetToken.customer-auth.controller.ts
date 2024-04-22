@@ -5,6 +5,7 @@ import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { findCustomerById } from "../../utils/db_functions/customer.db";
 import ForbiddenError from "../../errors/forbidden.errors";
+import { local_config } from "../../config/config";
 
 //@desc token refreshh
 //@method GEt  /customer-auth/refresh
@@ -15,7 +16,7 @@ export const refreshToken = asyncHandler(async (req: Request, res: Response) => 
         throw new UnAuthenticatedError("Unauthorized");
     }
     const token = authHeader.split(" ")[1];
-    jwt.verify(token, process.env.JWT_CUSTOMER_REFRESH_SECRET as string, async (err: any, decode: Record<string, any>) => {
+    jwt.verify(token, local_config.JWT_CUSTOMER_REFRESH_SECRET as string, async (err: any, decode: Record<string, any>) => {
         if (err)return res.status(403).json({ message: 'Unauthorized' })
         const { userId } = decode;
         const userExist = await findCustomerById(userId)
@@ -26,7 +27,7 @@ export const refreshToken = asyncHandler(async (req: Request, res: Response) => 
         }
         const accessToken = signJwt(
             toBeSignedData,
-            process.env.JWT_CUSTOMER_ACCESS_SECRET as string,
+            local_config.JWT_CUSTOMER_ACCESS_SECRET as string,
             {
                 expiresIn: "15m"
             })

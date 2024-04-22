@@ -7,6 +7,7 @@ import { generateRandom4DigitString, generateRandomNumber } from "../../utils/ut
 import { sendMail } from "../../utils/sendMail";
 import asyncHandler from 'express-async-handler';
 import { createUser, findUserByEmail } from "../../utils/db_functions/user.db";
+import { local_config } from "../../config/config";
 
 //@desc signup
 //@method POST  /auth/signup
@@ -21,7 +22,7 @@ export const registerUser = asyncHandler(async (req: Request<{}, {}, registerUse
 
     // const code = generateRandom4DigitString()
     const code = generateRandomNumber(6)
-    const verificationExpires = parseInt(process.env.VERIFICATION_CODE_EXP ?? "30") * 1000 * 60
+    const verificationExpires = parseInt(local_config.VERIFICATION_CODE_EXP ?? "30") * 1000 * 60
     const response = await createUser({
         ...req.body,
         password: hashPassword,

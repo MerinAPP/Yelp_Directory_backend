@@ -7,6 +7,7 @@ import { signJwt } from "../../utils/jwt";
 import ForbiddenError from "../../errors/forbidden.errors";
 import { findUser } from "../../utils/db_functions/customer.db";
 import NotFoundError from "../../errors/notFound.errors";
+import { local_config } from "../../config/config";
 
 
 //@desc  login customer
@@ -31,13 +32,13 @@ export const login = asyncHandler(async (req: Request<{}, {}, loginUserInput>, r
 
     const accessToken = signJwt(
         toBeSignedData,
-        process.env.JWT_CUSTOMER_ACCESS_SECRET as string,
+        local_config.JWT_CUSTOMER_ACCESS_SECRET as string,
         {
             expiresIn: "15m"
         })
     const refreshToken = signJwt(
         toBeSignedData,
-        process.env.JWT_CUSTOMER_REFRESH_SECRET as string,
+        local_config.JWT_CUSTOMER_REFRESH_SECRET as string,
         {
             expiresIn: 30 * 24 * 60 * 60
         }

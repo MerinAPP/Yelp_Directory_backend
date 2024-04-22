@@ -6,6 +6,7 @@ import { signJwt } from "../../utils/jwt";
 import { admin } from "../../config/firebase";
 import UnAuthenticatedError from "../../errors/unauthenticatedError";
 import customerModel from "../../model/customer.model";
+import { local_config } from "../../config/config";
 
 
 
@@ -39,21 +40,21 @@ export const googleLogin = asyncHandler(async (req: Request<{}, {}, googleLoginU
 
     const accessToken = signJwt(
         toBeSignedData,
-        process.env.JWT_CUSTOMER_ACCESS_SECRET as string,
+        local_config.JWT_CUSTOMER_ACCESS_SECRET as string,
         {
             expiresIn: "15m"
         }
         )
     const refreshToken = signJwt(
         toBeSignedData,
-        process.env.JWT_CUSTOMER_REFRESH_SECRET as string,
+        local_config.JWT_CUSTOMER_REFRESH_SECRET as string,
     
         )
 
 
     res.cookie("Jwt", refreshToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV !== "development",
+        secure: local_config.NODE_ENV !== "development",
         sameSite: "strict",
         maxAge: 24 * 60 * 60 * 1000 * 7,
     });

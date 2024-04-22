@@ -7,6 +7,7 @@ import { generateRandom4DigitString } from "../../utils/util";
 import { forgotPasswordInput } from "../../utils/validation/auth.validation";
 import asyncHandler from "express-async-handler";
 import { findUserByEmail } from "../../utils/db_functions/user.db";
+import { local_config } from "../../config/config";
 
 
 //@desc forgot passowrd
@@ -33,7 +34,7 @@ export const forgotPassword = asyncHandler(
         }
 
         const code = generateRandom4DigitString()
-        const verificationExpires = parseInt(process.env.VERIFICATION_CODE_EXP ?? "30") * 1000 * 60
+        const verificationExpires = parseInt(local_config.VERIFICATION_CODE_EXP ?? "30") * 1000 * 60
         user.passwordResetCode = code
         user.verificationCodeExpires = Date.now() + verificationExpires,
             await user.save()

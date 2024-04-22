@@ -11,13 +11,14 @@ import { corsOptions } from "./config/corsOption";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import 'express-async-errors'
+import { local_config } from "./config/config";
 
 
 
 config();
 
 const app = express();
-if ((process.env.NODE_ENV === "development")) {
+if ((local_config.NODE_ENV === "development")) {
     app.use(morgan("dev"));
 }
 

@@ -7,6 +7,7 @@ import { signJwt } from "../../utils/jwt";
 import { findUser } from "../../utils/db_functions/user.db";
 import NotFoundError from "../../errors/notFound.errors";
 import subscriptionModel from "../../model/subscription.model";
+import { local_config } from "../../config/config";
 
 
 //@desc  login user
@@ -30,13 +31,13 @@ export const login = asyncHandler(async (req: Request<{}, {}, loginUserInput>, r
 
     const accessToken = signJwt(
         toBeSignedData,
-        process.env.JWT_ACCESS_SECRET as string,
+        local_config.JWT_ACCESS_SECRET as string,
         {
             expiresIn: "15m"
         })
     const refreshToken = signJwt(
         toBeSignedData,
-        process.env.JWT_REFRESH_SECRET as string,
+        local_config.JWT_REFRESH_SECRET as string,
         {
             expiresIn: "7d"
         })
@@ -45,7 +46,7 @@ export const login = asyncHandler(async (req: Request<{}, {}, loginUserInput>, r
     delete userExist.password;
     res.cookie("Jwt", refreshToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV !== "development",
+        secure: local_config.NODE_ENV !== "development",
         sameSite: "strict",
         maxAge: 24 * 60 * 60 * 1000 * 7,
     });

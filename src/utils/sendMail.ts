@@ -1,6 +1,7 @@
 import nodemailer from "nodemailer";
 import path from "path";
 import ejs from "ejs";
+import { local_config } from "../config/config";
 
 interface MailOptions {
   email: string;
@@ -11,12 +12,12 @@ interface MailOptions {
 
 export const sendMail = async (options: MailOptions): Promise<void> => {
   const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST as string,
-    port: Number(process.env.SMTP_PORT),
-    service: process.env.SMTP_SERVICE as string,
+    host: local_config.SMTP_HOST as string,
+    port: Number(local_config.SMTP_PORT),
+    service: local_config.SMTP_SERVICE as string,
     auth: {
-      user: process.env.SMTP_MAIL as string,
-      pass: process.env.SMTP_PASSWORD as string,
+      user: local_config.SMTP_MAIL as string,
+      pass: local_config.SMTP_PASSWORD as string,
     },
   });
 
@@ -27,7 +28,7 @@ export const sendMail = async (options: MailOptions): Promise<void> => {
   const html = await ejs.renderFile(paths, data);
 
   const mailOption = {
-    from: process.env.SMTP_MAIL as string,
+    from: local_config.SMTP_MAIL as string,
     to: email,
     subject,
     html,

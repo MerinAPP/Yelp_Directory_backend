@@ -4,6 +4,7 @@ import BadRequestError from "../../errors/badRequest.errors";
 import asyncHandler from 'express-async-handler';
 import { findUser } from "../../utils/db_functions/customer.db";
 import { signJwt } from "../../utils/jwt";
+import { local_config } from "../../config/config";
 
 //@desc  avtivate email for customer
 //@method POST  /customer-auth/activate
@@ -35,13 +36,13 @@ export const activateUser = asyncHandler(async (req: Request<{}, {}, activateUse
 
     const accessToken = signJwt(
         toBeSignedData,
-        process.env.JWT_CUSTOMER_ACCESS_SECRET as string,
+        local_config.JWT_CUSTOMER_ACCESS_SECRET as string,
         {
             expiresIn: "15m"
         })
     const refreshToken = signJwt(
         toBeSignedData,
-        process.env.JWT_CUSTOMER_REFRESH_SECRET as string,
+        local_config.JWT_CUSTOMER_REFRESH_SECRET as string,
         {
             expiresIn: 30 * 24 * 60 * 60
         }
@@ -50,7 +51,7 @@ export const activateUser = asyncHandler(async (req: Request<{}, {}, activateUse
 
     res.cookie("Jwt", refreshToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV !== "development",
+        secure: local_config.NODE_ENV !== "development",
         sameSite: "strict",
         maxAge: 24 * 60 * 60 * 1000 * 7,
     });

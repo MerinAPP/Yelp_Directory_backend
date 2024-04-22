@@ -1,4 +1,5 @@
 import axios from "axios";
+import { local_config } from "../config/config";
 
 
 export const transalte = async (originalObject: Object) => {
@@ -25,7 +26,7 @@ const transalteOneLanguage = async function translateText(originalObject: Object
             } else {
                 const textToTranslate = originalObject[key];
                 try {
-                    const response = await axios.get(`https://translation.googleapis.com/language/translate/v2?target=${targetLanguage}&key=${process.env.TRANSLATION_APIKEY}&q=${textToTranslate}`)
+                    const response = await axios.get(`https://translation.googleapis.com/language/translate/v2?target=${targetLanguage}&key=${local_config.TRANSLATION_APIKEY}&q=${textToTranslate}`)
                     const translation = response?.data?.data?.translations?.[0]?.translatedText
                     translatedObject[key] = translation;
                 } catch (error) {
@@ -48,7 +49,7 @@ export const translateText = async (text: string) => {
 }
 const translateTextOnly = async function translateText(text: string, targetLanguage: string) {
     try {
-        const response = await axios.get(`https://translation.googleapis.com/language/translate/v2?target=${targetLanguage}&key=${process.env.TRANSLATION_APIKEY}&q=${text}`)
+        const response = await axios.get(`https://translation.googleapis.com/language/translate/v2?target=${targetLanguage}&key=${local_config.TRANSLATION_APIKEY}&q=${text}`)
         const translation = response?.data?.data?.translations?.[0]?.translatedText
         return translation
     } catch (error) {

@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import UnAuthenticatedError from "../errors/unauthenticatedError";
 import ForbiddenError from "../errors/forbidden.errors";
 import BadRequestError from "../errors/badRequest.errors";
+import { local_config } from "../config/config";
 
 
 
@@ -24,7 +25,7 @@ export const AuthJWT =
   ) => {
     try {
 
-      if (!process.env.JWT_ACCESS_SECRET) throw new BadRequestError("NO key")
+      if (!local_config.JWT_ACCESS_SECRET) throw new BadRequestError("NO key")
 
         
       const authHeader = req.headers.authorization || req.headers.Authorization as string;
@@ -32,7 +33,7 @@ export const AuthJWT =
         throw new UnAuthenticatedError("Unauthorized error3");
       }
       const token = authHeader.split(" ")[1];
-      jwt.verify(token, process.env.JWT_ACCESS_SECRET, (err, decoded) => {
+      jwt.verify(token, local_config.JWT_ACCESS_SECRET, (err, decoded) => {
         if (err) throw new ForbiddenError("Forbidden");
         req.userData = decoded as UserDataType;
         console.log({ decoded })
@@ -56,7 +57,7 @@ export const CustomerAuthJWT = (
       throw new UnAuthenticatedError("Unauthorized");
     }
     const token = authHeader.split(" ")[1];
-    jwt.verify(token, process.env.JWT_CUSTOMER_ACCESS_SECRET, (err, decoded) => {
+    jwt.verify(token, local_config.JWT_CUSTOMER_ACCESS_SECRET, (err, decoded) => {
       if (err) throw new ForbiddenError("Forbidden");
       req.userData = decoded as UserDataType;
       next();
