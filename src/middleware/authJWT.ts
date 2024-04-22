@@ -37,6 +37,7 @@ export const AuthJWT =
     } catch (err) {
       return res.status(403).json({
         message: "unauthorized",
+        err
       });
     }
   };
