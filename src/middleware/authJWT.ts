@@ -25,6 +25,8 @@ export const AuthJWT =
     try {
 
       if (!process.env.JWT_ACCESS_SECRET) throw new BadRequestError("NO key")
+
+        
       const authHeader = req.headers.authorization || req.headers.Authorization as string;
       if (!authHeader?.startsWith("Bearer ")) {
         throw new UnAuthenticatedError("Unauthorized error3");
@@ -40,7 +42,6 @@ export const AuthJWT =
     } catch (err) {
       return res.status(403).json({
         message: "unauthorized error",
-        err
       });
     }
   };
