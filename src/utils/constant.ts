@@ -22,7 +22,8 @@ export const GATEWAY_MERCHANT_ID = "9e2dab64-e2bb-4837-9b85-d855dd878d2b";
 export const successRedirectUrl = "https://santimpay.com";
 export const failureRedirectUrl = "https://santimpay.com";
 export const cancelRedirectUrl = "https://santimpay.com";
-export const notifyUrl = "https://api.backend.merinbd.com/api/v1//subscribe/webhook";
+// export const notifyUrl = "https://api.backend.merinbd.com/api/v1//subscribe/webhook";
+export const notifyUrl = "https://api.merinbd.com/api/v1/subscribe/webhook";
 
 
 
