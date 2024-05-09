@@ -30,6 +30,7 @@ const createSubsciption = asyncHandler(async (req: IUserMessage<object, object, 
     if (preSub) {
         preSub.subscriptionType = subscriptionType as "Free" | "Standard" | "Premium"
         preSub.status = "PENDING"
+        preSub.textRef = textRef
         await preSub.save()
     } else {
         const body = {

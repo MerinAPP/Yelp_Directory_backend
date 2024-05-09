@@ -11,11 +11,11 @@ import { pricing } from '../../utils/constant';
 const webhook = asyncHandler(async (req: Request, res: Response) => {
 
     const body: IRequestBodyOfSantim = req.body
-    const subsciption = await subscriptionModel.findOne({ textRef: body.txnId })
+    const subsciption = await subscriptionModel.findOne({ textRef: body.thirdPartyId })
     if (!subsciption) throw new NotFoundError("Subscription wasnot found")
     if (pricing[subsciption?.subscriptionType] != +body?.amount)
         throw new BadRequestError("Cannot complete payment!")
-    if (body.status === "COMPLETED") {
+    if (body.Status === "COMPLETED") {
         subsciption.status = "APPROVED";
         subsciption.previosSubscriptionType = subsciption.subscriptionType
         const pre = new Date();

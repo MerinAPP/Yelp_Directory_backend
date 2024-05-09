@@ -16,6 +16,6 @@ export interface IRequestBodyOfSantim {
     successRedirectUrl: string,
     failureRedirectUrl: string,
     message?: string,
-    status: string,
+    Status: string,
     receiverWalletID?: string
 }
