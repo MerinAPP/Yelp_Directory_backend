@@ -27,5 +27,6 @@ export const notifyUrl = "https://api.merinbd.com/api/v1/subscribe/webhook";
 
 
 export const pricing = {
-  "Standard": 1
+  "Standard": 3000,
+  "Free": 0
 }
