@@ -17,7 +17,7 @@ D0c63NvNY8Ky/QISmpyXh/ckq2gAtcKVDQ==
 -----END EC PRIVATE KEY-----
 `;
 
-export const GATEWAY_MERCHANT_ID = "f802d2a9424b49b8-a20c-576555cdb137";
+export const GATEWAY_MERCHANT_ID = "f802d2a9-424b-49b8-a20c-576555cdb137";
 
 export const successRedirectUrl = "https://santimpay.com";
 export const failureRedirectUrl = "https://santimpay.com";
