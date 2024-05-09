@@ -11,13 +11,13 @@ export const TEST_BASE_URL = "https://testnet.santimpay.com/api/v1/gateway";
 
 export const PRIVATE_KEY_IN_PEM = `
 -----BEGIN EC PRIVATE KEY-----
-MHcCAQEEIOMaKKZ/7V3zfvNSWkPU8dPWdMoQAtF+pXMoX77N3hjxoAoGCCqGSM49
-AwEHoUQDQgAE5QIQ+7iWonO2SXHg3amW83snCudYp3+her8JaeMU9mIxDhgvQk9w
-WtUvFQTe16IAb/c0UoJtBdJx5HJ+Z/CPLg==
+MHcCAQEEIKc3hdMRdIb+7B6eoc4ZjcpuEZlsEAj4kXJy3rPjOkRyoAoGCCqGSM49
+AwEHoUQDQgAEdFnQpWFqLdvvtmQCNcMHYRcHv/AaYMKL3atdGSHlsDWmySSvvdjX
+D0c63NvNY8Ky/QISmpyXh/ckq2gAtcKVDQ==
 -----END EC PRIVATE KEY-----
 `;
 
-export const GATEWAY_MERCHANT_ID = "9e2dab64-e2bb-4837-9b85-d855dd878d2b";
+export const GATEWAY_MERCHANT_ID = "f802d2a9424b49b8-a20c-576555cdb137";
 
 export const successRedirectUrl = "https://santimpay.com";
 export const failureRedirectUrl = "https://santimpay.com";
