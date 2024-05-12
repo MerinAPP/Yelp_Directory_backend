@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { loginUserInput } from "../../utils/validation/auth.validation";
 import BadRequestError from "../../errors/badRequest.errors";
 import asyncHandler from 'express-async-handler';
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import { signJwt } from "../../utils/jwt";
 import { findUser } from "../../utils/db_functions/user.db";
 import NotFoundError from "../../errors/notFound.errors";

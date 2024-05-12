@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { registerUserInput } from "../../utils/validation/auth.validation";
 import BadRequestError from "../../errors/badRequest.errors";
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import { generateRandom4DigitString, generateRandomNumber } from "../../utils/util";
 import { sendMail } from "../../utils/sendMail";
 import asyncHandler from 'express-async-handler';

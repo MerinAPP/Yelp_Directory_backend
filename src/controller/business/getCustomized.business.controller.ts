@@ -25,7 +25,7 @@ const getUserCustomizedBusiness = asyncHandler(async (req: IUserMessage, res: Re
     const queryParams: getBusinessInput = req.query
     const query: Record<string, any> = {};
     if (queryParams.search) {
-        query.name = { $regex: new RegExp(queryParams.search, 'i') };
+        query['$text'] = { $search: queryParams.search };
     }
     if (queryParams.categories) {
         query.categories = { $in: queryParams.categories?.split(',') }
@@ -41,6 +41,7 @@ const getUserCustomizedBusiness = asyncHandler(async (req: IUserMessage, res: Re
     query.status = "APPROVED"
     if (queryParams.location) {
         const location = queryParams.location.split(',')
+        
         const business = await findNearBusiness({ lat: parseFloat(location[0]), long: parseFloat(location[1]), query })
         if (prefered_Lang != 'English') {
             const ids = business?.map(b => b?._id)

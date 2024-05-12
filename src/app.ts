@@ -12,8 +12,7 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import 'express-async-errors'
 import { local_config } from "./config/config";
-
-
+import ExpressMongoSanitize from "express-mongo-sanitize";
 
 config();
 
@@ -24,6 +23,9 @@ if ((local_config.NODE_ENV === "development")) {
 
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
+app.use(ExpressMongoSanitize());
+
+
 app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use(express.json());

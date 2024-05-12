@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { resetPasswordInput } from "../../utils/validation/auth.validation";
 import userModel from "../../model/user.model";
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import BadRequestError from "../../errors/badRequest.errors";
 import asyncHandler from "express-async-handler";
 

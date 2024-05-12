@@ -3,7 +3,7 @@ import { loginUserInput } from "../../utils/validation/auth.validation";
 import userModel from "../../model/user.model";
 import BadRequestError from "../../errors/badRequest.errors";
 import asyncHandler from 'express-async-handler';
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import UnAuthenticatedError from "../../errors/unauthenticatedError";
 import { signJwt } from "../../utils/jwt";
 import { findUser } from "../../utils/db_functions/user.db";

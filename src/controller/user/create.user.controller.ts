@@ -6,7 +6,7 @@ import { IUserMessage } from '../../middleware/authJWT';
 import NotFoundError from '../../errors/notFound.errors';
 import { generateRandomNumber } from '../../utils/util';
 import { sendMail } from '../../utils/sendMail';
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 
 
 

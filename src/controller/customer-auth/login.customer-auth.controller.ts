@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { loginUserInput } from "../../utils/validation/auth.validation";
 import BadRequestError from "../../errors/badRequest.errors";
 import asyncHandler from 'express-async-handler';
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import { signJwt } from "../../utils/jwt";
 import ForbiddenError from "../../errors/forbidden.errors";
 import { findUser } from "../../utils/db_functions/customer.db";
@@ -16,7 +16,10 @@ import { local_config } from "../../config/config";
 export const login = asyncHandler(async (req: Request<{}, {}, loginUserInput>, res: Response) => {
     const { email, password, registrationToken } = req.body
     const userExist = await findUser({ email, accountTerminated: false }, { select: "+password" })
+    console.log(userExist)
     if (!userExist) throw new NotFoundError('User doesnt exist')
+
+
     if (!userExist.isActive) throw new BadRequestError('verify your email first')
     const match = await bcrypt.compare(password, userExist.password);
     if (!match) throw new BadRequestError("Invalid credential");

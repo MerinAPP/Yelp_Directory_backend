@@ -254,4 +254,6 @@ export const BusinessSchema = new Schema<IBusiness>({
 
 }, { timestamps: true });
 
+BusinessSchema.index({ name: 'text', });
+
 export default model("Business", BusinessSchema); 

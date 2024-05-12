@@ -2,7 +2,7 @@ import asyncHandler from "express-async-handler";
 import userModel from "../../model/user.model";
 import { changePasswordInput } from "../../utils/validation/auth.validation";
 import { Response } from "express";
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 
 import { IUserMessage } from "../../middleware/authJWT";
 import ForbiddenError from "../../errors/forbidden.errors";

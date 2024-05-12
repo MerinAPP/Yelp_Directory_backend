@@ -1,7 +1,7 @@
 import asyncHandler from "express-async-handler";
 import { changeOldPasswordInput } from "../../utils/validation/auth.validation";
 import { Response } from "express";
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import { IUserMessage } from "../../middleware/authJWT";
 import NotFoundError from "../../errors/notFound.errors";
 import BadRequestError from "../../errors/badRequest.errors";
