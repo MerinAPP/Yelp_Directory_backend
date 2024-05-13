@@ -19,7 +19,7 @@ const createEvent = asyncHandler(async (req: IUserMessage<{}, {}, createEventInp
     }
     console.log({ body });
     body.price = parseFloat(body?.price);
-    body.date = new Date(body?.date);
+    body.date = new Date();
     const response = await Event.create(body);
     res.status(201).json({
         message: 'Event created successfully',
