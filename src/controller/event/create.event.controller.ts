@@ -4,8 +4,9 @@ import { IUserMessage } from '../../middleware/authJWT';
 import { loop } from '../../utils/help';
 import Event from '../../model/event.model';
 import { createEventInput } from '../../utils/validation/event.validation';
-// import { uploadFile } from '../../config/spaces'; // Adjust the path accordingly
-// import { local_config } from "../../config/config"
+import { uploadFile } from '../../config/spaces'; // Adjust the path accordingly
+import { local_config } from "../../config/config"
+import { generateUniqueID } from '../../utils/util';
 
 
 //@desc create  event
@@ -13,32 +14,26 @@ import { createEventInput } from '../../utils/validation/event.validation';
 //@access private
 const createEvent = asyncHandler(async (req: IUserMessage<{}, {}, createEventInput>, res: Response) => {
     const body = { ...req.body } as any
-    console.log(req?.files)
-    if (req?.files && req?.files.length) {
-        const url = await loop(req?.files)
-        body.photo = {
-            public_id: url.id,
-            url: url.url
+    if (req?.file) {
+        const fileName = req.file.filename;
+        try {
+            await uploadFile(fileName);
+            const id = generateUniqueID();
+            body.photo = {
+                public_id: id,
+                url: `${local_config.BUCKET_URL}/${fileName}`
+            };
+        } catch (error) {
+            console.error('Error uploading file:', error);
+            throw new Error("Cant upload image")
         }
-
-        // try {
-        //     await uploadFile(fileName);
-        //     body.photo = {
-        //         public_id: id,
-        //         url: `${local_config.BUCKET_URL}/${fileName}`
-        //     };
-        // } catch (error) {
-        //     console.error('Error uploading file:', error);
-        //     // Handle error response here if file upload fails
-        //     return res.status(500).json({
-        //         success: false,
-        //         message: 'Failed to upload file.'
-        //     });
-        // }
     }
     console.log({ body })
     body.price = parseFloat(body?.price)
-    body.date = new Date(body?.date)
+    // body.date = new Date(body?.date)
+    body.date = new Date()
+
+
     const response = await Event.create(body)
     res.status(201).json({
         message: 'Event created sucessfully',
@@ -49,7 +44,7 @@ const createEvent = asyncHandler(async (req: IUserMessage<{}, {}, createEventInp
 export { createEvent };
 
 
-//Incase of multiple upload 
+//Incase of multiple upload
 // import { Request, Response } from 'express';
 // import asyncHandler from 'express-async-handler';
 // import { IUserMessage } from '../../middleware/authJWT';

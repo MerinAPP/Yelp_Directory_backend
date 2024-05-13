@@ -25,7 +25,8 @@ export const local_config = {
   AWS_ACCESS_KEY_ID: "DO00NZ6E3RZLM32WKGH8",
   AWS_SECRET_ACCESS_KEY: "qzmh5Bdf5pnfX/4UY5LvtZuTa5A7JEzCCK0X37YykDM",
   BUCKET_NAME: "merin-app",
-  BUCKET_URL: `https://${process.env.BUCKET_NAME}.nyc3.digitaloceanspaces.com/`, 
+  BUCKET_URL: `https://merin-app.nyc3.digitaloceanspaces.com`,
   ORIGIN_ENDPOINT: "https://merin-app.ams3.digitaloceanspaces.com"
+
 
 }
