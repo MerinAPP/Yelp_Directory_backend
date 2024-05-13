@@ -13,8 +13,8 @@ import { getWeekEvent } from "../controller/event/test";
 
 const router = express.Router();
 
-router.post("/", AuthJWT, isBussinessOwnerOrAdmin, upload.array('photo', 1), validateSchema(createEventSchema), createEvent)
-// router.post("/", AuthJWT, isBussinessOwnerOrAdmin, upload.single('photo'), validateSchema(createEventSchema), createEvent)
+// router.post("/", AuthJWT, isBussinessOwnerOrAdmin, upload.array('photo', 1), validateSchema(createEventSchema), createEvent)
+router.post("/",  upload.single('photo'), validateSchema(createEventSchema), createEvent)
 
 router.get("/", AuthJWT, isBussinessOwnerOrAdmin, getAllEvent)
 router.get("/test",getWeekEvent)
