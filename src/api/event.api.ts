@@ -5,7 +5,7 @@ import validateSchema from "../middleware/validateSchema.middleware";
 
 import { upload } from "../config/mutler";
 import { createEventSchema, deleteEventSchema, updateEventSchema } from "../utils/validation/event.validation";
-import { createEvent } from "../controller/event/create.event.controller";
+import { createEvent, createEventWithMultipleFiles } from "../controller/event/create.event.controller";
 import { getAllEvent } from "../controller/event/get.event.controller";
 import { updateEvent } from "../controller/event/update.sponser.controller";
 import { deleteEvent } from "../controller/event/delete.event.controller";
@@ -14,7 +14,7 @@ import { getWeekEvent } from "../controller/event/test";
 const router = express.Router();
 
 router.post("/", AuthJWT, isBussinessOwnerOrAdmin, upload.single('photo'), validateSchema(createEventSchema), createEvent)
-
+router.post("/multi", AuthJWT, isBussinessOwnerOrAdmin, upload.array('photos', 10), validateSchema(createEventSchema), createEventWithMultipleFiles)
 router.get("/", AuthJWT, isBussinessOwnerOrAdmin, getAllEvent)
 router.get("/test",getWeekEvent)
 

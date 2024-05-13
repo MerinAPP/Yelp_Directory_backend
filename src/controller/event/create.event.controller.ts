@@ -28,4 +28,32 @@ const createEvent = asyncHandler(async (req: IUserMessage<{}, {}, createEventInp
     });
 });
 
-export { createEvent };
+
+const createEventWithMultipleFiles = asyncHandler(async (req: IUserMessage<{}, {}, createEventInput>, res: Response) => {
+    const body = { ...req.body } as any;
+    console.log(req?.files);
+    
+    if (req?.files && Array.isArray(req.files)) {
+        const fileUploadPromises = req.files.map(file => uploadFileToSpaces(file));
+        const uploadResults = await Promise.all(fileUploadPromises);
+        
+        body.photos = uploadResults.map(result => ({
+            public_id: result.Key,
+            url: result.Location
+        }));
+    }
+    
+    console.log({ body });
+    body.price = parseFloat(body?.price);
+    body.date = new Date();
+    const response = await Event.create(body);
+    
+    res.status(201).json({
+        message: 'Event created successfully',
+        data: response,
+        success: true
+    });
+});
+
+
+export {  createEvent,createEventWithMultipleFiles };
