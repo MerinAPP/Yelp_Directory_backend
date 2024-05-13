@@ -22,9 +22,10 @@ export const local_config = {
   FIREBASE_CLIENT_EMAIL: "firebase-adminsdk-gynv1@merine-db956.iam.gserviceaccount.com",
   TRANSLATION_APIKEY: "AIzaSyDNZmlDrZUxD8Q36jE0M-Wpz8gWqiuhxGw",
   MONGO_DB_URI: "mongodb+srv://ruthpp3:IalFOQzAlNjkLFI1@cluster0.u8gon1l.mongodb.net/merin?retryWrites=true&w=majority",
-  AWS_ACCESS_KEY_ID: "",
-  AWS_SECRET_ACCESS_KEY: "",
-  BUCKET_NAME: "",
-  BUCKET_URL: `https://${process.env.BUCKET_NAME}.nyc3.digitaloceanspaces.com/`
+  AWS_ACCESS_KEY_ID: "DO00NZ6E3RZLM32WKGH8",
+  AWS_SECRET_ACCESS_KEY: "qzmh5Bdf5pnfX/4UY5LvtZuTa5A7JEzCCK0X37YykDM",
+  BUCKET_NAME: "merin-app",
+  BUCKET_URL: `https://${process.env.BUCKET_NAME}.nyc3.digitaloceanspaces.com/`, 
+  ORIGIN_ENDPOINT: "https://merin-app.ams3.digitaloceanspaces.com"
 
 }
