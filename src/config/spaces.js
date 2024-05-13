@@ -11,42 +11,42 @@ const s3 = new AWS.S3({
 });
 
 export const uploadFile = async (fileName) => {
-  let fileContent = fs.readFileSync(fileName);
+  let fileContent;
+  try {
+    fileContent = fs.readFileSync(fileName);
 
-  const allowedFileTypes = ['.jpg', '.jpeg', '.png', '.gif'];
-  const fileExtension = fileName.split('.').pop().toLowerCase();
-  if (!allowedFileTypes.includes('.' + fileExtension)) {
-    console.log('File type not allowed.');
-    return;
-  }
+    const allowedFileTypes = ['.jpg', '.jpeg', '.png', '.gif'];
+    const fileExtension = fileName.split('.').pop().toLowerCase();
+    if (!allowedFileTypes.includes('.' + fileExtension)) {
+      console.log('File type not allowed.');
+      return;
+    }
 
-  if (allowedFileTypes.includes('.' + fileExtension)) {
-    try {
+    if (allowedFileTypes.includes('.' + fileExtension)) {
       fileContent = await sharp(fileContent)
         .resize({ width: 1000 })
         .jpeg({ quality: 80 })
         .toBuffer();
-    } catch (error) {
-      console.error('Error compressing image:', error);
-      return;
     }
+
+    const ct = detectContentType(fileContent);
+
+    const params = {
+      Bucket: process.env.BUCKET_NAME,
+      Key: fileName,
+      Body: fileContent,
+      ACL: "public-read",
+      ContentType: ct,
+    };
+
+    s3.putObject(params, (err, data) => {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log(data);
+      }
+    });
+  } catch (error) {
+    console.error('Error uploading file:', error);
   }
-
-  const ct = detectContentType(fileContent);
-
-  var params = {
-    Bucket: process.env.BUCKET_NAME,
-    Key: fileName,
-    Body: fileContent,
-    ACL: "public-read",
-    ContentType: ct,
-  };
-
-  s3.putObject(params, function(err, data) {
-    if (err) {
-      console.log(err, err.stack);
-    } else {
-      console.log(data);
-    }
-  });
 }

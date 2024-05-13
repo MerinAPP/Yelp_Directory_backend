@@ -21,13 +21,20 @@ const createEvent = asyncHandler(async (req: IUserMessage<{}, {}, createEventInp
             url: url.url
         }
 
-        // const fileName = req.file.filename;
-        // const id = generateUniqueID(); // Generate a unique public ID for the file
-        // await uploadFile(fileName); // Upload file to DigitalOcean Spaces
-        // body.photo = {
-        //     public_id: id, // Save the public ID in the database
-        //     url: `${local_config.BUCKET_URL}/${fileName}` // Construct the file URL
-        // };
+        // try {
+        //     await uploadFile(fileName);
+        //     body.photo = {
+        //         public_id: id,
+        //         url: `${local_config.BUCKET_URL}/${fileName}`
+        //     };
+        // } catch (error) {
+        //     console.error('Error uploading file:', error);
+        //     // Handle error response here if file upload fails
+        //     return res.status(500).json({
+        //         success: false,
+        //         message: 'Failed to upload file.'
+        //     });
+        // }
     }
     console.log({ body })
     body.price = parseFloat(body?.price)
