@@ -1,4 +1,4 @@
-import multer from "multer";
+import multer from 'multer';
 
 const DIR = "./public/uploads/";
 const storage = multer.diskStorage({
@@ -14,29 +14,15 @@ const storage = multer.diskStorage({
   },
 });
 
-const fileFilter = (req, file, cb) => {
-  if (!file.originalname.match(/\.(jpg|jpeg|png|svg|webp)$/)) {
-    return cb(new Error("Please upload a valid image file"));
-  }
-  cb(undefined, true);
-};
+// const fileFilter = (req, file, cb) => {
+//   if (!file.originalname.match(/\.(jpg|jpeg|png|svg|webp)$/)) {
+//     return cb(new Error("Please upload a valid image file"));
+//   }
+//   cb(undefined, true);
+// };
 
 export const upload = multer({
   storage: storage,
   limits: { fileSize: 1024 * 4000 },
-  fileFilter: fileFilter,
+  // fileFilter: fileFilter,
 });
-
-// import multer from "multer";
-
-// const multerStorage = multer.diskStorage({
-//   destination: (request, file, callback) => {
-//     callback(null, __dirname);
-//   },
-
-//   filename: (request, file, callback) => {
-//     callback(null, file.originalname);
-//   },
-// });
-
-// export const multerUpload = multer({ storage: multerStorage });
