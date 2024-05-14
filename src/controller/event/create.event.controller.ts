@@ -32,7 +32,6 @@ const createEvent = asyncHandler(async (req: IUserMessage<{}, {}, createEventInp
 
 const createEventWithMultipleFiles = asyncHandler(async (req: IUserMessage<{}, {}, createEventInput>, res: Response) => {
     const body = { ...req.body } as any;
-    console.log(req?.files);
 
     if (req?.files && Array.isArray(req.files)) {
         const fileUploadPromises = req.files.map(file => uploadFileToSpaces(file));
