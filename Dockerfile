@@ -8,7 +8,10 @@ WORKDIR /app
 COPY package.json ./
 
 # Install dependencies
-RUN npm install
+RUN if [ "$NODE_ENV" = "development" ];\
+        then npm install; \
+        else npm install --only=production; \
+        fi
 
 # Copy the rest of the application code
 COPY . ./
