@@ -8,10 +8,6 @@ import { uploadFile } from '../../config/spaces'; // Adjust the path accordingly
 import { local_config } from "../../config/config"
 import { generateUniqueID } from '../../utils/util';
 
-
-//@desc create  event
-//@method POST  /event
-//@access private
 const createEvent = asyncHandler(async (req: IUserMessage<{}, {}, createEventInput>, res: Response) => {
     const body = { ...req.body } as any
     if (req?.file) {
@@ -36,12 +32,11 @@ const createEvent = asyncHandler(async (req: IUserMessage<{}, {}, createEventInp
 
     const response = await Event.create(body)
     res.status(201).json({
-        message: 'Event created sucessfully',
+        message: 'Event created successfully',
         data: response,
         success: true
     });
-})
-export { createEvent };
+});
 
 
 //Incase of multiple upload
