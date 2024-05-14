@@ -25,7 +25,6 @@ export const updateBusiness = asyncHandler(async (req: IUserMessage<z.TypeOf<typ
     if (!existingBusiness) throw new NotFoundError("Business not found")
     const { removeImages: revImg } = req.body
     const removeImages = revImg?.split(',')
-    console.log({ removeImages })
     let body = { ...req.body } as any
 
     /*   Delete gallery photos if there is one  */
