@@ -17,7 +17,12 @@ import { deleteAccount } from "../controller/profile/deleteAccount.[rofile.contr
 
 const router = express.Router();
 
-router.patch("/customer", CustomerAuthJWT, upload.array('image', 1), validateSchema(updateCustomerProfileSchema), updateCustomerProfile)
+router.patch("/customer",
+    CustomerAuthJWT,
+    upload.single('image'),
+    validateSchema(updateCustomerProfileSchema),
+    updateCustomerProfile)
+
 router.get("/customer", CustomerAuthJWT, profile)
 router.delete("/delete-account", CustomerAuthJWT, deleteAccount)
 

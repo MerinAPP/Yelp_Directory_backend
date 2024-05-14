@@ -9,6 +9,7 @@ import sponserModel from "../../model/sponser";
 import { updateSponserInput, updateSponserSchema } from "../../utils/validation/sponser.validation";
 import ISponsor from "../../interfaces/sponser.interface";
 import { loop } from "../../utils/help";
+import { uploadFileToSpaces } from "../../config/spaces";
 
 
 
@@ -21,12 +22,12 @@ export const updateSponser = asyncHandler(async (req: Request<z.TypeOf<typeof up
     const sponser = await sponserModel.findById(sponserId)
     if (!sponser) throw new NotFoundError('Sponser not found')
     const body = { ...req.body } as Partial<ISponsor>
-    if (req?.files && req?.files.length) {
-        const url = await loop(req?.files)
+    if (req?.file) {
+        const url = await uploadFileToSpaces(req.file);
         body.coverImage = {
-            public_id: url.id,
-            url: url.url
-        }
+            public_id: url.Key,
+            url: url.Location
+        };
     }
     const updatedSponser = await sponserModel.findByIdAndUpdate(sponserId, body, { new: true })
     res.status(200).json({

@@ -13,6 +13,7 @@ import NotFoundError from "../../errors/notFound.errors";
 import { z } from "zod";
 import { transalte } from "../../utils/translate";
 import translationSchema from "../../model/translationSchema";
+import { uploadFileToSpaces } from "../../config/spaces";
 
 
 //@desc update business
@@ -43,42 +44,48 @@ export const updateBusiness = asyncHandler(async (req: IUserMessage<z.TypeOf<typ
     const license = req.files?.license;
 
     if (logoFile && logoFile.length) {
-        const url = await loop(logoFile)
+        const url = await uploadFileToSpaces(logoFile[0]);
         body.logo = {
-            public_id: url.id,
-            url: url.url
-        }
+            public_id: url.Key,
+            url: url.Location
+        };
     }
     if (coverPhotoFile && coverPhotoFile.length) {
-        const url = await loop(coverPhotoFile)
+        const url = await uploadFileToSpaces(logoFile[0]);
         body.coverPhoto = {
-            public_id: url.id,
-            url: url.url
-        }
+            public_id: url.Key,
+            url: url.Location
+        };
     }
     if (license && license.length) {
-        const url = await loop(license)
+        const url = await uploadFileToSpaces(license[0]);
         body.license = {
-            public_id: url.id,
-            url: url.url
-        }
+            public_id: url.Key,
+            url: url.Location
+        };
+    }
+
+
+    if (galleryFiles && galleryFiles.length) {
+        const fileUploadPromises = galleryFiles.map(file => uploadFileToSpaces(file));
+        const uploadResults = await Promise.all(fileUploadPromises);
+        body.gallery = uploadResults.map(result => ({
+            public_id: result.Key,
+            url: result.Location
+        }));
+
+
     }
     if (galleryFiles && galleryFiles.length) {
-        const urls = await Mloop(galleryFiles)
-        const galleryUrl: {
-            url: string;
-            public_id: string;
-        }[] = []
-        urls.forEach(url => {
-            galleryUrl.push({
-                public_id: url.id,
-                url: url.url
-            })
-        })
+        const fileUploadPromises = galleryFiles.map(file => uploadFileToSpaces(file));
+        const uploadResults = await Promise.all(fileUploadPromises);
+        const galleryUrl = uploadResults.map(result => ({
+            public_id: result.Key,
+            url: result.Location
+        }));
         currentGalleryImgs = [...currentGalleryImgs, ...galleryUrl]
     }
     body.gallery = currentGalleryImgs
-    console.log(body.gallery, ",,,,")
 
     const business = await bussinessModel.findByIdAndUpdate(existingBusiness._id, body, { new: true })
 

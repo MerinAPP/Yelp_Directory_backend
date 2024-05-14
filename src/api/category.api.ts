@@ -31,13 +31,21 @@ router.patch("/:category_id", AuthJWT, isSuperOrSystemAdmin, validateSchema(Upda
 
 
 // sub
-router.post("/:category_id/sub", AuthJWT, isSuperOrSystemAdmin, upload.array('image', 1), validateSchema(createSubCategorySchema), createSubCategory)
-router.patch("/:category_id/sub/:subCategory_id", AuthJWT, isSuperOrSystemAdmin, upload.array('image', 1), validateSchema(updateSubSchema), updateSubcategory)
+router.post("/:category_id/sub", AuthJWT, isSuperOrSystemAdmin, upload.single('image'), validateSchema(createSubCategorySchema), createSubCategory)
+router.patch("/:category_id/sub/:subCategory_id",
+    AuthJWT, isSuperOrSystemAdmin,
+    upload.single('image'),
+    validateSchema(updateSubSchema),
+    updateSubcategory)
+
 router.delete("/:category_id/sub/:subCategory_id", AuthJWT, isSuperOrSystemAdmin, validateSchema(deleteSubCategorySchema), deleteSubCategory)
 
 
 //sub item
-router.post("/:category_id/sub/:subCategory_id/item", AuthJWT, isSuperOrSystemAdmin, upload.array('image', 1), validateSchema(createSubCategoryItemSchema), createSubCategoryItem)
+router.post("/:category_id/sub/:subCategory_id/item",
+    AuthJWT, isSuperOrSystemAdmin,
+    upload.single('image'),
+    validateSchema(createSubCategoryItemSchema), createSubCategoryItem)
 router.delete("/:category_id/sub/:subCategory_id/item/:item_id", AuthJWT, isSuperOrSystemAdmin, validateSchema(deleteSubCategoryItemSchema), deleteSubCategoryItem)
 
 

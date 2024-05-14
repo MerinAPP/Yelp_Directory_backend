@@ -5,6 +5,7 @@ import { z } from "zod";
 import { loop } from "../../utils/help";
 import Discount from "../../model/discount.model";
 import { updateDiscountInput, updateDiscountSchema } from "../../utils/validation/discount.validation";
+import { uploadFileToSpaces } from "../../config/spaces";
 
 
 //@desc update discount
@@ -15,14 +16,14 @@ export const updateDiscount = asyncHandler(async (req: Request<z.TypeOf<typeof u
     const discount = await Discount.findById(discountId)
     if (!discount) throw new NotFoundError('Discount not found')
     const body = { ...req.body } as any
-    if (req?.files && req?.files.length) {
-        const url = await loop(req?.files)
+    if (req?.file) {
+        const url = await uploadFileToSpaces(req.file);
         body.photo = {
-            public_id: url.id,
-            url: url.url
-        }
-    }else{
-        body.photo=discount?.photo
+            public_id: url.Key,
+            url: url.Location
+        };
+    } else {
+        body.photo = discount?.photo
     }
     if (body?.discountPercentage)
         body.discountPercentage = parseFloat(body?.discountPercentage)

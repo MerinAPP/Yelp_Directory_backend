@@ -10,6 +10,7 @@ import { Product } from "../../interfaces/business.interface";
 import { loop } from "../../utils/help";
 import translationSchema from "../../model/translationSchema";
 import { transalte } from "../../utils/translate";
+import { uploadFileToSpaces } from "../../config/spaces";
 
 
 
@@ -18,14 +19,13 @@ import { transalte } from "../../utils/translate";
 //@access private
 export const createProduct = asyncHandler(async (req: IUserMessage<z.TypeOf<typeof giveReviewSchema>["params"], {}, createProductInput>, res: Response) => {
     const body = { ...req.body } as any
-    if (req?.files && req?.files.length) {
-        const url = await loop(req?.files)
+    if (req?.file) {
+        const url = await uploadFileToSpaces(req.file);
         body.photo = {
-            public_id: url.id,
-            url: url.url
-        }
+            public_id: url.Key,
+            url: url.Location
+        };
     }
-    console.log({ body })
     body.price = parseFloat(req.body?.price)
     const businessId = req.params.business_id
     const business = await bussinessModel.findById(businessId).populate({

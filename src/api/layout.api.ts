@@ -25,8 +25,10 @@ const router = express.Router();
 router.get("/", getLayout)
 
 // hero
-router.post("/hero", AuthJWT, isSuperOrSystemAdmin, upload.array('image', 1), createHero)
-router.patch("/hero", AuthJWT, isSuperOrSystemAdmin, upload.array('image', 1), updateHero)
+router.post("/hero", AuthJWT, isSuperOrSystemAdmin,
+    upload.single('photo'),
+    createHero)
+router.patch("/hero", AuthJWT, isSuperOrSystemAdmin, upload.single('photo'), updateHero)
 router.delete("/hero", AuthJWT, isSuperOrSystemAdmin, deleteHero)
 
 // benefit
@@ -35,8 +37,8 @@ router.patch("/benefit", AuthJWT, isSuperOrSystemAdmin, validateSchema(createBen
 router.delete("/benefit", AuthJWT, isSuperOrSystemAdmin, deleteBenefit)
 
 // about
-router.post("/about", AuthJWT, isSuperOrSystemAdmin, upload.array('image', 1), createAbout)
-router.patch("/about", AuthJWT, isSuperOrSystemAdmin, upload.array('image', 1), validateSchema(updateAboutSchema), updateAbout)
+router.post("/about", AuthJWT, isSuperOrSystemAdmin, upload.single('photo'), createAbout)
+router.patch("/about", AuthJWT, isSuperOrSystemAdmin, upload.single('photo'), validateSchema(updateAboutSchema), updateAbout)
 router.delete("/about/:aboutId", AuthJWT, isSuperOrSystemAdmin, validateSchema(deleteAboutSchema), deleteAbout)
 
 // features

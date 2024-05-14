@@ -10,6 +10,7 @@ import { Product } from "../../interfaces/business.interface";
 import { loop } from "../../utils/help";
 import Category from "../../model/category.model";
 import { createSubCategoryInput, createSubCategorySchema } from "../../utils/validation/category.validation";
+import { uploadFileToSpaces } from "../../config/spaces";
 
 
 
@@ -18,13 +19,12 @@ import { createSubCategoryInput, createSubCategorySchema } from "../../utils/val
 //@access private
 export const createSubCategory = asyncHandler(async (req: IUserMessage<z.TypeOf<typeof createSubCategorySchema>["params"], {}, createSubCategoryInput>, res: Response) => {
     const body = { ...req.body } as any
-    if (req?.files && req?.files.length) {
-        const url = await loop(req?.files)
-        console.log({ url })
+    if (req?.file) {
+        const url = await uploadFileToSpaces(req.file);
         body.photo = {
-            public_id: url.id,
-            url: url.url
-        }
+            public_id: url.Key,
+            url: url.Location
+        };
     }
 
     const categoryId = req.params.category_id

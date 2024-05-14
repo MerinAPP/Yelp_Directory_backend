@@ -4,6 +4,7 @@ import { IUserMessage } from "../../../middleware/authJWT";
 import layoutModel from "../../../model/layout.model";
 import NotFoundError from "../../../errors/notFound.errors";
 import { loop } from "../../../utils/help";
+import { uploadFileToSpaces } from "../../../config/spaces";
 
 
 
@@ -14,12 +15,12 @@ export const updateHero = asyncHandler(async (req: IUserMessage, res: Response) 
     let layout = await layoutModel.findOne();
     if (!layout) throw new NotFoundError('Layout not found')
     const body = { ...req.body } as any
-    if (req?.files && req?.files.length) {
-        const url = await loop(req?.files)
+    if (req?.file) {
+        const url = await uploadFileToSpaces(req.file);
         body.photo = {
-            public_id: url.id,
-            url: url.url
-        }
+            public_id: url.Key,
+            url: url.Location
+        };
     }
     console.log({ body })
     layout.hero.photo = body?.photo?.url ? body.photo : layout.hero.photo;

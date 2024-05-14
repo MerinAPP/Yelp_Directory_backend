@@ -6,6 +6,7 @@ import NotFoundError from "../../../errors/notFound.errors";
 import { loop } from "../../../utils/help";
 import { z } from "zod";
 import { updateAboutInput, updateAboutSchema } from "../../../utils/validation/layout.validation";
+import { uploadFileToSpaces } from "../../../config/spaces";
 
 
 
@@ -16,12 +17,12 @@ export const updateAbout = asyncHandler(async (req: IUserMessage<z.TypeOf<typeof
     if (!layout) throw new NotFoundError('Layout not found')
     const body = { ...req.body } as any
     console.log(req?.files)
-    if (req?.files && req?.files.length) {
-        const url = await loop(req?.files)
+    if (req?.file) {
+        const url = await uploadFileToSpaces(req.file);
         body.photo = {
-            public_id: url.id,
-            url: url.url
-        }
+            public_id: url.Key,
+            url: url.Location
+        };
     }
     const aboutSection = layout.about.find(a => a?._id === aboutId);
     if (!aboutSection) {

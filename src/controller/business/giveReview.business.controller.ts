@@ -10,6 +10,7 @@ import { Review } from "../../interfaces/business.interface";
 import { loop } from "../../utils/help";
 import { translateText } from "../../utils/translate";
 import translationSchema from "../../model/translationSchema";
+import { uploadFileToSpaces } from "../../config/spaces";
 
 
 
@@ -22,12 +23,12 @@ export const createReview = asyncHandler(async (req: IUserMessage<z.TypeOf<typeo
     const business = await bussinessModel.findById(businessId).exec();
     if (!business) throw new NotFoundError('Business not found')
     const body = { ...req.body } as Review
-    if (req?.files && req?.files.length) {
-        const url = await loop(req?.files)
+    if (req?.file) {
+        const url = await uploadFileToSpaces(req.file);
         body.photo = {
-            public_id: url.id,
-            url: url.url
-        }
+            public_id: url.Key,
+            url: url.Location
+        };
     }
     const reqBody = {
         rating: body.rating,

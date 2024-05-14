@@ -11,9 +11,16 @@ import { upload } from "../config/mutler";
 
 const router = express.Router();
 
-router.post("/", AuthJWT, isSuperOrSystemAdmin, upload.array('coverImage', 1), validateSchema(createSponserSchema), createSponser)
+router.post("/", AuthJWT, isSuperOrSystemAdmin,
+    upload.single('coverImage'),
+    validateSchema(createSponserSchema), createSponser)
 router.get("/", validateSchema(getSponserSchema), getAllSponsers)
-router.patch("/:sponser_id", AuthJWT, isSuperOrSystemAdmin, upload.array('coverImage', 1), validateSchema(updateSponserSchema), updateSponser)
+router.patch("/:sponser_id",
+    AuthJWT,
+    isSuperOrSystemAdmin,
+    upload.single('coverImage'),
+    validateSchema(updateSponserSchema),
+    updateSponser)
 router.delete("/:sponser_id", AuthJWT, isSuperOrSystemAdmin, validateSchema(deleteSponserSchema), deleteSponser)
 
 

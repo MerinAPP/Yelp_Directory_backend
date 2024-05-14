@@ -6,6 +6,7 @@ import { z } from "zod";
 import { loop } from "../../utils/help";
 import Category from "../../model/category.model";
 import { updateSubCategoryInput, updateSubSchema } from "../../utils/validation/category.validation";
+import { uploadFileToSpaces } from "../../config/spaces";
 
 
 
@@ -20,12 +21,12 @@ export const updateSubcategory = asyncHandler(async (req: IUserMessage<z.TypeOf<
     const sub = category.subcategories.find(r => r._id.equals(subCategoryId))
     if (!sub) throw new NotFoundError('Subcategory doesnt exist')
     const body = { ...req.body } as any
-    if (req?.files && req?.files.length) {
-        const url = await loop(req?.files)
+    if (req?.file) {
+        const url = await uploadFileToSpaces(req.file);
         body.photo = {
-            public_id: url.id,
-            url: url.url
-        }
+            public_id: url.Key,
+            url: url.Location
+        };
     }
     sub.name = body.name ? body.name : sub.name
     sub.photo = body.photo ? body.photo : sub.photo
