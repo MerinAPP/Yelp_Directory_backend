@@ -1,9 +1,6 @@
 import { Request, Response } from "express";
 import asyncHandler from 'express-async-handler';
 import { IUserMessage } from "../../../middleware/authJWT";
-import CategoryModel from '../../../model/product-category.model'
-import { createCategoryInput } from "../../../utils/validation/category.validation";
-import { loop } from "../../../utils/help";
 import layoutModel from "../../../model/layout.model";
 import { uploadFileToSpaces } from "../../../config/spaces";
 

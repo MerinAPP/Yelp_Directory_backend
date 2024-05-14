@@ -16,7 +16,6 @@ export const updateAbout = asyncHandler(async (req: IUserMessage<z.TypeOf<typeof
     let layout = await layoutModel.findOne();
     if (!layout) throw new NotFoundError('Layout not found')
     const body = { ...req.body } as any
-    console.log(req?.files)
     if (req?.file) {
         const url = await uploadFileToSpaces(req.file);
         body.photo = {

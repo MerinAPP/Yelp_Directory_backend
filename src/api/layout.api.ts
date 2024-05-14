@@ -38,12 +38,12 @@ router.delete("/benefit", AuthJWT, isSuperOrSystemAdmin, deleteBenefit)
 
 // about
 router.post("/about", AuthJWT, isSuperOrSystemAdmin, upload.single('photo'), createAbout)
-router.patch("/about", AuthJWT, isSuperOrSystemAdmin, upload.single('photo'), validateSchema(updateAboutSchema), updateAbout)
+router.patch("/about/:aboutId", AuthJWT, isSuperOrSystemAdmin, upload.single('photo'), validateSchema(updateAboutSchema), updateAbout)
 router.delete("/about/:aboutId", AuthJWT, isSuperOrSystemAdmin, validateSchema(deleteAboutSchema), deleteAbout)
 
 // features
 router.post("/feature", AuthJWT, isSuperOrSystemAdmin, validateSchema(createFeatureSchema), createFeature)
-router.patch("/feature", AuthJWT, isSuperOrSystemAdmin, validateSchema(updateFeatureSchema), updateFeature)
+router.patch("/feature/:featureId", AuthJWT, isSuperOrSystemAdmin, validateSchema(updateFeatureSchema), updateFeature)
 router.delete("/features/:featureId", AuthJWT, isSuperOrSystemAdmin, validateSchema(deleteFeatureSchema), deleteFeature)
 
 
