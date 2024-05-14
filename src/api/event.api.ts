@@ -18,8 +18,8 @@ const router = express.Router();
 
 
 router.post("/",
-    // AuthJWT,
-    // isBussinessOwnerOrAdmin,
+    AuthJWT,
+    isBussinessOwnerOrAdmin,
     upload.single('photo'),
     validateSchema(createEventSchema),
     createEvent)
