@@ -1,5 +1,8 @@
 version: '3'
 services:
+  nginx:
+    ports:
+      - "5000:80"
   merin-app:
     build: 
       context: .
