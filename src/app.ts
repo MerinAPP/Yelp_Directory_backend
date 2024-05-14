@@ -20,7 +20,7 @@ const app = express();
 if ((local_config.NODE_ENV === "development")) {
     app.use(morgan("dev"));
 }
-
+app.enable("trust proxy")
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(ExpressMongoSanitize());
