@@ -23,4 +23,4 @@ RUN npm run build
 EXPOSE 5000
 
 # Command to run your app
-CMD ["npm","run", "dev"]
+CMD ["node","dist/index.js"]

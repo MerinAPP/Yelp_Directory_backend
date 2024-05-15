@@ -35,4 +35,4 @@ services:
       - BUCKET_NAME=${BUCKET_NAME}
       - BUCKET_URL=${BUCKET_URL}
       - ORIGIN_ENDPOINT=${ORIGIN_ENDPOINT}
-    command: npm start
+    command: node --max-old-space-size=4096 /dist/index.js
