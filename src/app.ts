@@ -13,6 +13,7 @@ import cookieParser from "cookie-parser";
 import 'express-async-errors'
 import { local_config } from "./config/config";
 import ExpressMongoSanitize from "express-mongo-sanitize";
+import { errorHandler, successHandler } from "./config/morgna";
 
 config();
 
@@ -21,6 +22,8 @@ if ((local_config.NODE_ENV === "development")) {
     app.use(morgan("dev"));
 }
 app.enable("trust proxy")
+app.use(successHandler);
+app.use(errorHandler);
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(ExpressMongoSanitize());
