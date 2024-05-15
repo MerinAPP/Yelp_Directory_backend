@@ -28,3 +28,6 @@ BUCKET_NAME: process.env.BUCKET_NAME,
 BUCKET_URL: process.env.BUCKET_URL,
 ORIGIN_ENDPOINT: process.env.ORIGIN_ENDPOINT,
 }
+
+
+
