@@ -17,7 +17,7 @@ RUN if [ "$NODE_ENV" = "development" ];\
 COPY . .
 
 # Build TypeScript code with increased memory limit
-RUN --max-old-space-size=4096 npm run build
+RUN NODE_OPTIONS=--max_old_space_size=4096 npm run build
 
 # Expose the port your app runs on
 EXPOSE 5000
