@@ -10,14 +10,14 @@ COPY package.json ./
 # Install dependencies
 RUN if [ "$NODE_ENV" = "development" ];\
         then npm install; \
-        else npm install;  \
+        else npm install --only=production; \
         fi
 
 # Copy the rest of the application code
 COPY . ./
 
 # Build TypeScript code
-RUN NODE_OPTIONS=--max-old-space-size=4096 npm run build
+RUN npm run build
 
 # Expose the port your app runs on
 EXPOSE 5000
