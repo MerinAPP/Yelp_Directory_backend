@@ -17,7 +17,7 @@ RUN if [ "$NODE_ENV" = "development" ];\
 COPY . ./
 
 # Build TypeScript code
-RUN npm run build
+RUN NODE_OPTIONS=--max-old-space-size=4096 npm run build
 
 # Expose the port your app runs on
 EXPOSE 5000
