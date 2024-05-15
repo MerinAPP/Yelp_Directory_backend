@@ -10,7 +10,7 @@ COPY package.json ./
 # Install dependencies
 RUN if [ "$NODE_ENV" = "development" ];\
         then npm install; \
-        else npm install --only=production; \
+        else npm install;  \
         fi
 
 # Copy the rest of the application code
