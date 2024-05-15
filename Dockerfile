@@ -1,5 +1,5 @@
 # Use the official latest Node.js image as a base
-FROM node:14
+FROM node:18.16.0-alpine3.17
 
 # Set the working directory inside the container to be the /aypp
 WORKDIR /app
