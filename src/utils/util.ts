@@ -25,7 +25,6 @@ export function formatPhoneNumber(phoneNumber: string): string {
   }
 }
 
-console.log(formatPhoneNumber("0911931810"))
 
 
 export function generateUniqueID() {
