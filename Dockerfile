@@ -13,6 +13,8 @@ RUN if [ "$NODE_ENV" = "development" ];\
         else npm install --only=production; \
         fi
 
+RUN npm install -g typescript
+
 # Copy the rest of the application code
 COPY . ./
 
