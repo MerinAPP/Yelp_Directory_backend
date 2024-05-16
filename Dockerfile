@@ -1,5 +1,5 @@
-# Build Stage
-FROM node:18.16.0-alpine3.17 AS builder
+# Use the official latest Node.js image as a base
+FROM node:18.16.0-alpine3.17
 
 WORKDIR /app
 

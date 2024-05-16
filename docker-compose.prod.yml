@@ -4,13 +4,12 @@ services:
     ports:
       - "80:80"
   merin-app:
-    build: 
+    build:
       context: .
-      args: 
+      args:
         NODE_ENV: production
     environment:
       - NODE_ENV=production
-      - NODE_ENV=${NODE_ENV}
       - CLOUD_NAME=${CLOUD_NAME}
       - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
       - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}
@@ -33,6 +32,5 @@ services:
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - BUCKET_NAME=${BUCKET_NAME}
-      - BUCKET_URL=${BUCKET_URL}
       - ORIGIN_ENDPOINT=${ORIGIN_ENDPOINT}
     command: npm start
