@@ -2,10 +2,9 @@ import { NextFunction, Request, Response } from "express";
 import CustomAPIError from "../errors/custom.errors";
 
 const errorHandlerMiddleware = (err: any, req: Request, res: Response, next: NextFunction) => {
-    console.log({ err })
     const defaultError = {
         statusCode: err.statusCode || 500,
-        msg: err.message || "Something went wrong, try again later",
+        msg: err.message || "Something went wrong , try again later",
     };
     if (err instanceof CustomAPIError) {
         return res
