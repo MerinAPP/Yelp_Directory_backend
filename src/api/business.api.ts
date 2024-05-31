@@ -61,7 +61,7 @@ router.patch("/:business_id", AuthJWT, isBussinessOwnerOrAdmin, uploadMiddleware
 
 
 // review
-router.patch("/:business_id/review", CustomerAuthJWT, upload.array('image', 1), validateSchema(giveReviewSchema), createReview)
+router.patch("/:business_id/review", CustomerAuthJWT, upload.single('image'), validateSchema(giveReviewSchema), createReview)
 router.patch("/:business_id/review/:review_id/react", CustomerAuthJWT, validateSchema(reactToReviewSchema), reactToReview)
 router.patch("/:business_id/review/:review_id/replay", AuthJWT, isBussinessOwnerOrAdmin, validateSchema(replySchema), reviewReply)
 
@@ -71,15 +71,15 @@ router.patch("/:business_id/contactUs", CustomerAuthJWT, validateSchema(createCo
 
 
 // product
-router.get("/:business_id/product",validateSchema(getProducts), getProducts)
-router.post("/:business_id/product", AuthJWT, isBussinessOwnerOrAdmin, upload.array('image', 1), validateSchema(createProductSchema), createProduct)
-router.patch("/:business_id/product/:product_id", AuthJWT, isBussinessOwnerOrAdmin, upload.array('image', 1), validateSchema(updateProductSchema), updateProduct)
+router.get("/:business_id/product", validateSchema(getProducts), getProducts)
+router.post("/:business_id/product", AuthJWT, isBussinessOwnerOrAdmin, upload.single('image'), validateSchema(createProductSchema), createProduct)
+router.patch("/:business_id/product/:product_id", AuthJWT, isBussinessOwnerOrAdmin, upload.single('image'), validateSchema(updateProductSchema), updateProduct)
 router.delete("/:business_id/product/:product_id", AuthJWT, isBussinessOwnerOrAdmin, validateSchema(deleteProductSchema), deleteProduct)
 
 
 // branch
-router.post("/:business_id/branch", AuthJWT, isBussinessOwnerOrAdmin, upload.array('image', 1), validateSchema(createBranchSchema), createBranch)
-router.patch("/:business_id/branch/:branch_id", AuthJWT, isBussinessOwnerOrAdmin, upload.array('image', 1), validateSchema(updateBranchSchema), updatebranch)
+router.post("/:business_id/branch", AuthJWT, isBussinessOwnerOrAdmin, upload.single('image'), validateSchema(createBranchSchema), createBranch)
+router.patch("/:business_id/branch/:branch_id", AuthJWT, isBussinessOwnerOrAdmin, upload.single('image'), validateSchema(updateBranchSchema), updatebranch)
 router.delete("/:business_id/branch/:branch_id", AuthJWT, isBussinessOwnerOrAdmin, validateSchema(deleteBranchSchema), deleteBranch)
 
 

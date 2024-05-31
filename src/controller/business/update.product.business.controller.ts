@@ -7,6 +7,7 @@ import NotFoundError from "../../errors/notFound.errors";
 import { z } from "zod";
 import { loop } from "../../utils/help";
 import { Product } from "../../interfaces/business.interface";
+import { uploadFileToSpaces } from "../../config/spaces";
 
 
 
@@ -24,12 +25,12 @@ export const updateProduct = asyncHandler(async (req: IUserMessage<z.TypeOf<type
     const product = business.products.find(r => r._id.equals(productId))
     if (!product) throw new NotFoundError('Product doesnt exist')
     const body = { ...req.body } as any
-    if (req?.files && req?.files.length) {
-        const url = await loop(req?.files)
+    if (req?.file) {
+        const url = await uploadFileToSpaces(req.file);
         body.photo = {
-            public_id: url.id,
-            url: url.url
-        }
+            public_id: url.Key,
+            url: url.Location
+        };
     }
     product.photo = body.photo?.url ? body.photo : product.photo
     product.name = body.name ? body.name : product.name

@@ -11,6 +11,7 @@ import bussinessModel from "../../model/bussiness.model";
 import ForbiddenError from "../../errors/forbidden.errors";
 import { transalte } from "../../utils/translate";
 import translationSchema from "../../model/translationSchema";
+import { uploadFileToSpaces } from "../../config/spaces";
 
 
 //@desc create new business
@@ -27,29 +28,28 @@ export const createBusiness = asyncHandler(async (req: IUserMessage<{}, {}, crea
     const galleryFiles = req.files?.galleries || []
 
     if (logoFile && logoFile.length) {
-        const url = await loop(logoFile)
+        const url = await uploadFileToSpaces(logoFile[0]);
         body.logo = {
-            public_id: url.id,
-            url: url.url
-        }
+            public_id: url.Key,
+            url: url.Location
+        };
     }
     if (coverPhotoFile && coverPhotoFile.length) {
-        const url = await loop(coverPhotoFile)
+        const url = await uploadFileToSpaces(logoFile[0]);
         body.coverPhoto = {
-            public_id: url.id,
-            url: url.url
-        }
+            public_id: url.Key,
+            url: url.Location
+        };
     }
     if (galleryFiles && galleryFiles.length) {
-        const urls = await Mloop(galleryFiles)
-        const galleryUrl = []
-        urls.forEach(url => {
-            galleryUrl.push({
-                public_id: url.id,
-                url: url.url
-            })
-        })
-        body.gallery = galleryUrl
+        const fileUploadPromises = galleryFiles.map(file => uploadFileToSpaces(file));
+        const uploadResults = await Promise.all(fileUploadPromises);
+        body.gallery = uploadResults.map(result => ({
+            public_id: result.Key,
+            url: result.Location
+        }));
+
+
     }
 
     const business = await bussinessModel.create(body)

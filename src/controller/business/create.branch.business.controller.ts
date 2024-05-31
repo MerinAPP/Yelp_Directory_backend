@@ -10,6 +10,7 @@ import { Branch } from "../../interfaces/business.interface";
 import { loop } from "../../utils/help";
 import { transalte } from "../../utils/translate";
 import translationSchema from "../../model/translationSchema";
+import { uploadFileToSpaces } from "../../config/spaces";
 
 
 
@@ -18,12 +19,12 @@ import translationSchema from "../../model/translationSchema";
 //@access private
 export const createBranch = asyncHandler(async (req: IUserMessage<z.TypeOf<typeof createBranchSchema>["params"], {}, createBranchInput>, res: Response) => {
     const body = { ...req.body } as any
-    if (req?.files && req?.files.length) {
-        const url = await loop(req?.files)
+    if (req?.file) {
+        const url = await uploadFileToSpaces(req.file);
         body.photo = {
-            public_id: url.id,
-            url: url.url
-        }
+            public_id: url.Key,
+            url: url.Location
+        };
     }
     body.mapLink = body.mapLink.map((link: string) => parseFloat(link))
 

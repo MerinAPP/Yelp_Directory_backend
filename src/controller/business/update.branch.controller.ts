@@ -7,6 +7,7 @@ import NotFoundError from "../../errors/notFound.errors";
 import { z } from "zod";
 import { loop } from "../../utils/help";
 import { Branch } from "../../interfaces/business.interface";
+import { uploadFileToSpaces } from "../../config/spaces";
 
 
 
@@ -24,12 +25,12 @@ export const updatebranch = asyncHandler(async (req: IUserMessage<z.TypeOf<typeo
     const branch = business.branch.find(r => r._id.equals(branchId))
     if (!branch) throw new NotFoundError('Branch doesnt exist')
     const body = { ...req.body } as any
-    if (req?.files && req?.files.length) {
-        const url = await loop(req?.files)
+    if (req?.file) {
+        const url = await uploadFileToSpaces(req.file);
         body.photo = {
-            public_id: url.id,
-            url: url.url
-        }
+            public_id: url.Key,
+            url: url.Location
+        };
     }
     if (body.mapLink.length)
         body.mapLink = body.mapLink.map((link: string) => parseFloat(link))

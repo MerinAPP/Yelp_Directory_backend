@@ -2,35 +2,35 @@ import { Request, Response } from "express";
 import NotFoundError from "../../errors/notFound.errors";
 import asyncHandler from "express-async-handler";
 import { z } from "zod";
-import { updateSponserInput, updateSponserSchema } from "../../utils/validation/sponser.validation";
+import { updateAdvertInput, updateAdvertSchema } from "../../utils/validation/advert.validation";
 import { loop } from "../../utils/help";
 import advert from "../../model/advert";
 import IAdvert from "../../interfaces/advert.interface";
-import { updateAdvertSchema } from "../../utils/validation/advert.validation";
+import { uploadFileToSpaces } from "../../config/spaces";
 
 
 
 
-//@desc update sponser
+//@desc update Advert
 //@method PATCH  /advert/:advert_id
 //@access private
-export const updateAdvert = asyncHandler(async (req: Request<z.TypeOf<typeof updateAdvertSchema>["params"], {}, updateSponserInput>, res: Response) => {
-    const sponserId = req.params.advert_id
-    const sponser = await advert.findById(sponserId)
-    if (!sponser) throw new NotFoundError('Advert not found')
+export const updateAdvert = asyncHandler(async (req: Request<z.TypeOf<typeof updateAdvertSchema>["params"], {}, updateAdvertInput>, res: Response) => {
+    const AdvertId = req.params.advert_id
+    const Advert = await advert.findById(AdvertId)
+    if (!Advert) throw new NotFoundError('Advert not found')
     const body = { ...req.body } as Partial<IAdvert>
-    if (req?.files && req?.files.length) {
-        const url = await loop(req?.files)
+    if (req?.file) {
+        const url = await uploadFileToSpaces(req.file);
         body.coverImage = {
-            public_id: url.id,
-            url: url.url
-        }
+            public_id: url.Key,
+            url: url.Location
+        };
     }
-    const updatedSponser = await advert.findByIdAndUpdate(sponserId, body, { new: true })
+    const updatedAdvert = await advert.findByIdAndUpdate(AdvertId, body, { new: true })
     res.status(200).json({
         message: 'Advert Updated sucessfully',
         sucess: true,
-        body: updatedSponser
+        body: updatedAdvert
     })
 
 

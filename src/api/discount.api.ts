@@ -13,9 +13,13 @@ import { deleteDiscount } from "../controller/discount/delete.discount.controlle
 
 const router = express.Router();
 
-router.post("/", AuthJWT, isBussinessOwnerOrAdmin, upload.array('photo', 1), validateSchema(createDiscountSchema), createDiscount)
-router.get("/",AuthJWT, isBussinessOwnerOrAdmin, getAllDiscount)
-router.patch("/:discount_id", AuthJWT, isBussinessOwnerOrAdmin, upload.array('photo', 1), validateSchema(updateDiscountSchema), updateDiscount)
+router.post("/", AuthJWT, isBussinessOwnerOrAdmin,
+    upload.single('photo'),
+    validateSchema(createDiscountSchema), createDiscount)
+router.get("/", AuthJWT, isBussinessOwnerOrAdmin, getAllDiscount)
+router.patch("/:discount_id", AuthJWT, isBussinessOwnerOrAdmin,
+    upload.single('photo'),
+    validateSchema(updateDiscountSchema), updateDiscount)
 router.delete("/:discount_id", AuthJWT, isBussinessOwnerOrAdmin, deleteDiscount)
 
 export default router;
